@@ -6,7 +6,7 @@ import sys
 
 bs = 1
 SEQ_LEN = 384
-MODEL_NAME = "distilbert-base-cased-distilled-squad"
+MODEL_NAME = "distilbert-base-uncased-distilled-squad"
 
 # Allocate tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
@@ -44,6 +44,9 @@ print(f"\nContext = \n{context}")
 print(f"\nQ. > {question}")
 start_logits, end_logits = model_fn(input_encodings.input_ids, input_encodings.attention_mask)
 
+print("start_logits:", start_logits)
+print("end_logits:", end_logits)
+
 answer_start_index = int(tf.math.argmax(start_logits, axis=-1)[0])
 answer_end_index = int(tf.math.argmax(end_logits, axis=-1)[0])
 
@@ -51,24 +54,24 @@ predict_answer_tokens = input_encodings.input_ids[0, answer_start_index : answer
 ans = tokenizer.decode(predict_answer_tokens)
 print(f"Prediction: {ans}\n")
 
-from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
-frozen_func = convert_variables_to_constants_v2(model_fn.get_concrete_function())
+# from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
+# frozen_func = convert_variables_to_constants_v2(model_fn.get_concrete_function())
 
-layers = [op.name for op in frozen_func.graph.get_operations()]
-print("-" * 50)
-print("NO. of Frozen model layers: {}".format(len(layers)))
+# layers = [op.name for op in frozen_func.graph.get_operations()]
+# print("-" * 50)
+# print("NO. of Frozen model layers: {}".format(len(layers)))
 
-print("-" * 50)
-print("Frozen model inputs: ")
-print(frozen_func.inputs)
-print("Frozen model outputs: ")
-print(frozen_func.outputs)
+# print("-" * 50)
+# print("Frozen model inputs: ")
+# print(frozen_func.inputs)
+# print("Frozen model outputs: ")
+# print(frozen_func.outputs)
 
-graph_def = frozen_func.graph.as_graph_def()
+# graph_def = frozen_func.graph.as_graph_def()
 
-graph_def = tf.compat.v1.graph_util.remove_training_nodes(graph_def)
+# graph_def = tf.compat.v1.graph_util.remove_training_nodes(graph_def)
 
-tf.io.write_graph(graph_or_graph_def=graph_def,
-                  logdir="/workspace/QualcommClinic23-1/Quantization_Scripts/frozen_models",
-                  name="distilbert1.pb",
-                  as_text=False)
+# tf.io.write_graph(graph_or_graph_def=graph_def,
+#                   logdir="/workspace/QualcommClinic23-2/Quantization_Scripts/frozen_models",
+#                   name="distilbert-uncased.pb",
+#                   as_text=False)

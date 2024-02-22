@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, TFAutoModelForQuestionAnswering
 import sys
 
 bs = 1
-SEQ_LEN = 128
+SEQ_LEN = 384
 MODEL_NAME = "deepset/tinyroberta-squad2"
 
 # Allocate tokenizer and model
@@ -69,6 +69,6 @@ graph_def = frozen_func.graph.as_graph_def()
 graph_def = tf.compat.v1.graph_util.remove_training_nodes(graph_def)
 
 tf.io.write_graph(graph_or_graph_def=graph_def,
-                  logdir="/workspace/QualcommClinic23-1/Quantization_Scripts/frozen_models",
+                  logdir="/workspace/QualcommClinic23-2/Quantization_Scripts/frozen_models",
                   name="tinyroberta.pb",
                   as_text=False)
