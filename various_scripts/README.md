@@ -9,10 +9,12 @@ There are also a few files for installing and running [AIMET](https://github.com
     `python ./scripts/distilbert.py`
     
     After running this command, a model named `distilbert-uncased.pb` will be generated in the `./frozen_models` folder.
+
+    Note: if you want to convert a different model into a frozen graph, replace the `MODEL_NAME` variable with the suitable model name and adjust the inputs/input signature accordingly (e.g., some models only need `input_ids` and `attention_mask` while other models might also require `token_type_ids`).
 2.  Make sure you are running the docker container for the SNPE SDK (you can follow the instructions [here](https://github.com/quic/qidk/tree/master/Tools/snpe-docker)). Now, you are able to use tools within the SNPE SDK.
 3.  Convert the DistilBERT Tensorflow frozen graph (`distilbert-uncased.pb`) into a DLC file using the following command:
     
-    `snpe-tensorflow-to-dlc -i frozen_models/distilbert-uncased.pb -d input_ids 1,384 -d attention_mask 1,384 --out_node Identity --out_node Identity_1 -o dlc_files/disilbert-uncased.dlc`
+    `snpe-tensorflow-to-dlc -i frozen_models/distilbert-uncased.pb -d input_ids 1,384 -d attention_mask 1,384 --out_node Identity --out_node Identity_1 -o dlc_files/distilbert-uncased.dlc`
     
     Note that `input_ids` and `attention_mask` must match the input of the model, and `Identity` and `Identity_1` must match the output of the model. You can load your frozen graph of the model (`distilbert-uncased.pb`) onto Netron to view the names of these.
 

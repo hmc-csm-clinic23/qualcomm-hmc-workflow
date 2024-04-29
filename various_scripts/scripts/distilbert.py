@@ -71,6 +71,6 @@ graph_def = frozen_func.graph.as_graph_def()
 graph_def = tf.compat.v1.graph_util.remove_training_nodes(graph_def)
 
 tf.io.write_graph(graph_or_graph_def=graph_def,
-                  logdir="/workspace/QualcommClinic23-2/Quantization_Scripts/frozen_models",
+                  logdir="/workspace/qualcomm-hmc-workflow/Quantization_Scripts/frozen_models",
                   name="distilbert-uncased-distilled.pb",
                   as_text=False)
