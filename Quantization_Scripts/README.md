@@ -4,7 +4,7 @@ This repository contains the code necessary to export an off-the-shelf machine l
 ## Steps to generate a DLC file
 1.  Generate DistilBERT as a Tensorflow frozen graph:
     
-    `python3 ./models_to_export/distilbert.py`
+    `python ./scripts/distilbert.py`
     
     After running this command, a model named `distilbert-uncased.pb` will be generated in the `./frozen_models` folder.
 2.  Make sure you are running the docker container for the SNPE SDK (you can follow the instructions [here](https://github.com/quic/qidk/tree/master/Tools/snpe-docker)). Now, you are able to use tools within the SNPE SDK.
@@ -21,5 +21,5 @@ This repository contains the code necessary to export an off-the-shelf machine l
     This generates a DLC file named `distilbert-uncased-cached.dlc` in the `frozen_models` folder.
 
 ## Other files
-- `models_to_export/check_onnx.py` is a simple script that checks whether a given ONNX model can be loaded, and prints the input and output names of the model.
-- 
+- `scripts/check_onnx.py` is a simple script that checks whether a given ONNX model can be loaded, and prints the input and output names of the model.
+- `scripts/aimet.sh` is a bash script for AIMET, which we started using for quantization but did not finish.

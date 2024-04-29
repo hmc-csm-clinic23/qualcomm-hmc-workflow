@@ -1,12 +1,12 @@
 import tensorflow as tf
 
 from transformers import TensorType
-from transformers import AutoTokenizer, TFAutoModelForQuestionAnswering
+from transformers import TFAutoModelForQuestionAnswering, AutoTokenizer
 import sys
 
 bs = 1
 SEQ_LEN = 384
-MODEL_NAME = "deepset/tinyroberta-squad2"
+MODEL_NAME = "distilbert-base-uncased-distilled-squad"
 
 # Allocate tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
@@ -38,11 +38,13 @@ input_encodings = tokenizer(
             max_length=SEQ_LEN,
             return_special_tokens_mask=True
         )
-# print(input_encodings)
 
 print(f"\nContext = \n{context}")
 print(f"\nQ. > {question}")
 start_logits, end_logits = model_fn(input_encodings.input_ids, input_encodings.attention_mask)
+
+print("start_logits:", start_logits)
+print("end_logits:", end_logits)
 
 answer_start_index = int(tf.math.argmax(start_logits, axis=-1)[0])
 answer_end_index = int(tf.math.argmax(end_logits, axis=-1)[0])
@@ -70,5 +72,5 @@ graph_def = tf.compat.v1.graph_util.remove_training_nodes(graph_def)
 
 tf.io.write_graph(graph_or_graph_def=graph_def,
                   logdir="/workspace/QualcommClinic23-2/Quantization_Scripts/frozen_models",
-                  name="tinyroberta.pb",
+                  name="distilbert-uncased-distilled.pb",
                   as_text=False)
