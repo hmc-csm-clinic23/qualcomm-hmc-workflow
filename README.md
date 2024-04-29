@@ -1,1 +1,1 @@
-Create a new branch with name + name of work and then commit to it
+This repository contains scripts and commands for our workflow to generate a DLC from an off-the-shelf machine learning language model. The scripts and commands are all in the `various_scripts` folder.
