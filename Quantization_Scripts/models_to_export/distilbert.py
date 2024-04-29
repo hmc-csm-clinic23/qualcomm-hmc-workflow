@@ -38,7 +38,6 @@ input_encodings = tokenizer(
             max_length=SEQ_LEN,
             return_special_tokens_mask=True
         )
-# print(input_encodings)
 
 print(f"\nContext = \n{context}")
 print(f"\nQ. > {question}")
@@ -54,24 +53,24 @@ predict_answer_tokens = input_encodings.input_ids[0, answer_start_index : answer
 ans = tokenizer.decode(predict_answer_tokens)
 print(f"Prediction: {ans}\n")
 
-# from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
-# frozen_func = convert_variables_to_constants_v2(model_fn.get_concrete_function())
+from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
+frozen_func = convert_variables_to_constants_v2(model_fn.get_concrete_function())
 
-# layers = [op.name for op in frozen_func.graph.get_operations()]
-# print("-" * 50)
-# print("NO. of Frozen model layers: {}".format(len(layers)))
+layers = [op.name for op in frozen_func.graph.get_operations()]
+print("-" * 50)
+print("NO. of Frozen model layers: {}".format(len(layers)))
 
-# print("-" * 50)
-# print("Frozen model inputs: ")
-# print(frozen_func.inputs)
-# print("Frozen model outputs: ")
-# print(frozen_func.outputs)
+print("-" * 50)
+print("Frozen model inputs: ")
+print(frozen_func.inputs)
+print("Frozen model outputs: ")
+print(frozen_func.outputs)
 
-# graph_def = frozen_func.graph.as_graph_def()
+graph_def = frozen_func.graph.as_graph_def()
 
-# graph_def = tf.compat.v1.graph_util.remove_training_nodes(graph_def)
+graph_def = tf.compat.v1.graph_util.remove_training_nodes(graph_def)
 
-# tf.io.write_graph(graph_or_graph_def=graph_def,
-#                   logdir="/workspace/QualcommClinic23-2/Quantization_Scripts/frozen_models",
-#                   name="distilbert-uncased.pb",
-#                   as_text=False)
+tf.io.write_graph(graph_or_graph_def=graph_def,
+                  logdir="/workspace/QualcommClinic23-2/Quantization_Scripts/frozen_models",
+                  name="distilbert-uncased-distilled.pb",
+                  as_text=False)
