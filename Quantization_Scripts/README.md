@@ -1,6 +1,8 @@
 ## Description
 This repository contains the code necessary to export an off-the-shelf machine learning language model as a DLC file, which is then plugged into the 2023-24 Qualcomm CS Clinic team's Android app project. This README file contains the steps necessary to obtain a transformers-based language model (specifically DistilBERT, but the same process can be applied to other models of similar architectures), convert it into a Tensorflow frozen graph, and convert the frozen graph into a DLC file that can then be cached and plugged into the Android app in [this repository](github.com/tanvikad/qualcomm-hmc-app/edit/master/README.md). The code within this repository is adapted from [QIDK's NLP Solution 1 for Question Answering](https://github.com/quic/qidk/tree/master/Solutions/NLPSolution1-QuestionAnswering). 
 
+There are also a few files for installing and running [AIMET](https://github.com/quic/aimet), which we were able to install and run but did not use in terms of quantization. 
+
 ## Steps to generate a DLC file
 1.  Generate DistilBERT as a Tensorflow frozen graph:
     
@@ -23,3 +25,4 @@ This repository contains the code necessary to export an off-the-shelf machine l
 ## Other files
 - `scripts/check_onnx.py` is a simple script that checks whether a given ONNX model can be loaded, and prints the input and output names of the model.
 - `scripts/aimet.sh` is a bash script for AIMET, which we started using for quantization but did not finish.
+- `requirements.txt` lists the requirements for installing and running AIMET. 
